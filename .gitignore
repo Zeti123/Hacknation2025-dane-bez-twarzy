@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 node_modules/
 build/
 dist/
@@ -12,3 +13,10 @@ next-env.d.ts
 .firebase/
 .next/
 .env
+=======
+.vscode/*
+__pycache__/*
+*.pyc
+.DS_Store
+
+>>>>>>> b0f9196 (Let goooo)
