@@ -1,0 +1,14 @@
+node_modules/
+build/
+dist/
+venv/
+next-env.d.ts
+*.tsbuildinfo
+next-env.d.ts
+
+.local/certs
+.idea/
+.yarn/
+.firebase/
+.next/
+.env
