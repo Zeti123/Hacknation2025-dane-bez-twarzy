@@ -9,7 +9,6 @@
  EntityHint(text='Jan Kowalski', label='persName', start_char=173, end_char=185),
  EntityHint(text='Anna Nowak', label='persName', start_char=190, end_char=200),
  EntityHint(text='Krawiec', label='persName', start_char=274, end_char=281)]
-
 |
 "Reprezentujemy konsorcjum {compName}, które zajmuje się anonimizacją dokumentów. "
 "Siedziba firmy znajduje się we Wrocławiu przy ulicy {Ulica}. "
