@@ -197,7 +197,7 @@ class SpacyPreprocessor:
                 continue
 
             redacted_parts.append(text[cursor:ent.start_char])
-            redacted_parts.append(f"[{ent.label.upper()}]")
+            redacted_parts.append(f"[{ent.label}]")
             cursor = ent.end_char
             last_end = ent.end_char
 

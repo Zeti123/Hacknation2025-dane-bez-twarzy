@@ -64,7 +64,7 @@ def luhn_check(number: str) -> bool:
 def is_valid_phone(raw: str) -> bool:
     digits = _normalize_digits(raw)
     # Accept global phone lengths (after stripping country code/separators).
-    return 7 <= len(digits) <= 15
+    return 7 <= len(digits) <= 9
 
 
 def is_valid_bank_account(raw: str) -> bool:
