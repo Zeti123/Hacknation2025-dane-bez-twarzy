@@ -29,7 +29,7 @@ def shrink_religion_spans(doc):
     return doc
 
 def add_religion_entity_ruler(nlp: spacy.Language):
-    ruler = nlp.add_pipe("entity_ruler", before="ner")
+    ruler = nlp.add_pipe("entity_ruler", name="religion_ruler", before="ner")
 
     ruler.add_patterns([
         {
