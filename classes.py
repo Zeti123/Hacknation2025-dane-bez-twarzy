@@ -39,4 +39,5 @@ class PreprocessResult:
     tokens: List[TokenInfo]
     sentences: List[SentenceInfo]
     entities: List[EntityHint]
+    redacted_text: str
     meta: Dict[str, Any]

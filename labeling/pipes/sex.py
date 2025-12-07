@@ -16,7 +16,12 @@ def shrink_sex_spans(doc):
 
 
 def add_sex_entity_ruler(nlp: spacy.Language):
-    ruler = nlp.add_pipe("entity_ruler", name="sex_ruler", before="ner")
+    ruler = nlp.add_pipe(
+        "entity_ruler",
+        name="sex_ruler",
+        after="ner",
+        config={"overwrite_ents": True},
+    )
 
     ruler.add_patterns([
         {

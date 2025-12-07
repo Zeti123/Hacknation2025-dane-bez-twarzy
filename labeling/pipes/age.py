@@ -21,7 +21,12 @@ def shrink_age_spans(doc):
 
 
 def add_age_entity_ruler(nlp: spacy.Language):
-    ruler = nlp.add_pipe("entity_ruler", name="age_ruler", before="ner")
+    ruler = nlp.add_pipe(
+        "entity_ruler",
+        name="age_ruler",
+        after="ner",
+        config={"overwrite_ents": True},
+    )
 
     ruler.add_patterns([
         {
@@ -30,7 +35,21 @@ def add_age_entity_ruler(nlp: spacy.Language):
                 {"POS": "NUM"},
                 {"LEMMA": "rok"},
             ],
-        }
+        },
+        {
+            "label": AGE_LABEL,
+            "pattern": [
+                {"POS": "NUM"},
+                {"LOWER": {"IN": ["lat", "lata"]}},
+            ],
+        },
+        {
+            "label": AGE_LABEL,
+            "pattern": [
+                {"POS": "NUM"},
+                {"LOWER": "r"},
+            ],
+        },
     ])
 
     nlp.add_pipe("shrink_age_spans", last=True)
