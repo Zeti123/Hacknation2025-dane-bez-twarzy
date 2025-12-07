@@ -1,6 +1,7 @@
 import spacy
 from spacy import Language
-from spacy.tokens import Span
+
+from ._utils import shrink_spans
 
 RELIGION_LABEL = "religion"
 RELIGION_WORDS = [
@@ -15,18 +16,11 @@ RELIGION_WORDS = [
     "buddysta",
 ]
 
+
 @Language.component("shrink_religion_spans")
 def shrink_religion_spans(doc):
-    new_ents = []
-    for ent in doc.ents:
-        if ent.label_ == RELIGION_LABEL:
-            start = ent.end - 1
-            end = ent.end
-            new_ents.append(Span(doc, start, end, label=ent.label))
-        else:
-            new_ents.append(ent)
-    doc.ents = tuple(new_ents)
-    return doc
+    return shrink_spans(doc, RELIGION_LABEL)
+
 
 def add_religion_entity_ruler(nlp: spacy.Language):
     ruler = nlp.add_pipe("entity_ruler", name="religion_ruler", before="ner")
