@@ -1,7 +1,13 @@
 import json
-from typing import Dict, List, Tuple
+from typing import Dict, Iterator, List, Tuple
 
 import ollama
+
+try:
+    from tqdm import tqdm
+except ImportError:  # fallback if tqdm is not installed
+    tqdm = None
+
 from classes import ALLOWED_LABELS, Chunk, EntityHint
 
 
@@ -79,7 +85,7 @@ Zwróć WYŁĄCZNIE JSON w formacie:
                 options={
                     "temperature": 0.1,
                     "top_p": 0.9,
-                    "num_predict": 256,
+                    "num_predict": 4016,
                 },
             )
         except Exception as e:
@@ -95,9 +101,11 @@ Zwróć WYŁĄCZNIE JSON w formacie:
         except json.JSONDecodeError as e:
             raise ValueError(f"Ollama zwróciła nie-JSON: {content}") from e
 
-    def classify_chunk(self, chunk: Chunk) -> Dict[Tuple[int, int], str]:
+    def classify_chunk(self, chunk: Chunk, verbose: bool = False) -> Dict[Tuple[int, int], str]:
         """
         Zwraca mapę: (start_char, end_char) -> label (łącznie z 'none' dla odrzuconych hintów).
+        Hinty są wysyłane w paczkach pogrupowanych po wstępnych etykietach (tematycznie),
+        aby uniknąć mieszania bardzo różnych kategorii w jednym zapytaniu.
         """
         result: Dict[Tuple[int, int], str] = {}
         ents = chunk.entities
@@ -105,41 +113,67 @@ Zwróć WYŁĄCZNIE JSON w formacie:
         if not ents:
             return result
 
-        # dzielimy encje na porcje po max_hints_per_call
-        for i in range(0, len(ents), self.max_hints_per_call):
-            subset = ents[i : i + self.max_hints_per_call]
+        # grupujemy po wstępnej etykiecie, a dopiero potem robimy batching
+        grouped: Dict[str, List[EntityHint]] = {}
+        for h in ents:
+            grouped.setdefault(h.label or "unknown", []).append(h)
 
-            user_prompt, local_id_to_hint = self._build_user_prompt(chunk, subset)
-            raw = self._call_ollama(ENTITY_SYSTEM_PROMPT, user_prompt)
+        for label_key, group in grouped.items():
+            for batch_idx, i in enumerate(range(0, len(group), self.max_hints_per_call), start=1):
+                subset = group[i : i + self.max_hints_per_call]
 
-            # spodziewamy się: {"entities": [{"id": 0, "label": "name"}, ...]}
-            for ent_info in raw.get("entities", []):
-                local_id = ent_info.get("id")
-                label = ent_info.get("label")
-                if local_id is None or label is None:
-                    continue
+                user_prompt, local_id_to_hint = self._build_user_prompt(chunk, subset)
+                if verbose:
+                    print(
+                        f"[ollama] label={label_key}, batch={batch_idx}, "
+                        f"hints={len(subset)}, chunk_span=({chunk.start_char},{chunk.end_char})"
+                    )
+                raw = self._call_ollama(ENTITY_SYSTEM_PROMPT, user_prompt)
 
-                hint = local_id_to_hint.get(local_id)
-                if not hint:
-                    continue
+                # spodziewamy się: {"entities": [{"id": 0, "label": "name"}, ...]}
+                for ent_info in raw.get("entities", []):
+                    local_id = ent_info.get("id")
+                    label = ent_info.get("label")
+                    if local_id is None or label is None:
+                        continue
 
-                key = (hint.start_char, hint.end_char)
-                result[key] = label
+                    hint = local_id_to_hint.get(local_id)
+                    if not hint:
+                        continue
+
+                    key = (hint.start_char, hint.end_char)
+                    result[key] = label
 
         return result
 
-    def classify_document(self, chunks: List[Chunk]) -> Dict[Tuple[int, int], str]:
+    def classify_document(
+        self, chunks: List[Chunk], show_progress: bool = True, verbose: bool = False
+    ) -> Dict[Tuple[int, int], str]:
         """
         Zwraca globalną mapę: (start_char, end_char) -> label
         dla całego dokumentu (wszystkie chunki).
         """
         global_result: Dict[Tuple[int, int], str] = {}
-        for chunk in chunks:
-            partial = self.classify_chunk(chunk)
-            # jeśli jest konflikt (ta sama pozycja, różne label), możesz tu dodać strategię rozwiązywania
+        for _, partial in self.classify_document_stream(
+            chunks, show_progress=show_progress, verbose=verbose
+        ):
             for key, label in partial.items():
                 global_result[key] = label
         return global_result
+
+    def classify_document_stream(
+        self, chunks: List[Chunk], show_progress: bool = True, verbose: bool = False
+    ) -> Iterator[Tuple[int, Dict[Tuple[int, int], str]]]:
+        """
+        Jak classify_document, ale zwraca wyniki na bieżąco per chunk.
+        """
+        iterator = enumerate(chunks)
+        if show_progress and tqdm:
+            iterator = enumerate(tqdm(chunks, desc="Ollama classify", unit="chunk"))
+
+        for idx, chunk in iterator:
+            partial = self.classify_chunk(chunk, verbose=verbose)
+            yield idx, partial
     
 
 ENTITY_SYSTEM_PROMPT = """
