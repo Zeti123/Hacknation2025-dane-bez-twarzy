@@ -3,9 +3,6 @@ from typing import Any, Dict, List
 
 import spacy
 
-from pipes.rule_entities import RULE_SOURCE
-
-
 @dataclass
 class TokenInfo:
     idx: int  # token index in doc
@@ -152,7 +149,7 @@ class SpacyPreprocessor:
 
         if label in ALLOWED_LABELS:
             # Force dates to come from rule-based (regex-style) matches, not spaCy NER.
-            if label == "date" and ent.ent_id_ != RULE_SOURCE:
+            if label == "date" and ent.ent_id_ != "rule-based":
                 return []
             return [EntityHint(text=ent.text, label=label, start_char=ent.start_char, end_char=ent.end_char)]
 
