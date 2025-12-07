@@ -30,7 +30,21 @@ def add_age_entity_ruler(nlp: spacy.Language):
                 {"POS": "NUM"},
                 {"LEMMA": "rok"},
             ],
-        }
+        },
+        {
+            "label": AGE_LABEL,
+            "pattern": [
+                {"POS": "NUM"},
+                {"LOWER": {"IN": ["lat", "lata"]}},
+            ],
+        },
+        {
+            "label": AGE_LABEL,
+            "pattern": [
+                {"POS": "NUM"},
+                {"LOWER": "r"},
+            ],
+        },
     ])
 
     nlp.add_pipe("shrink_age_spans", last=True)
