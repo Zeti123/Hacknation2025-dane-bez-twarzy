@@ -33,12 +33,14 @@ def luhn_check(number: str) -> bool:
 
     return total % 10 == 0
 
-def find_documents_numbers(text: str) -> List[EntityHint]:
+def regex_labeling(text: str) -> List[EntityHint]:
     patterns = {
         "pesel": r"\b\d{11}\b",
         "dowod": r"\b[A-Z]{3}\d{6}\b",
         "paszport": r"\b[A-Z]{2}\d{7}\b",
         "karta": r"\b(?:\d[ -]?){13,19}\b",
+        "email": r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b",
+        "telefon": r"\b(?:\+48\s?|\b)?\d{3}[-\s]?\d{3}[-\s]?\d{3}\b"
     }
 
     hints: List[EntityHint] = []

@@ -3,6 +3,8 @@ import spacy
 from pipes.relative import add_relative_entity_ruler
 from pipes.religion import add_religion_entity_ruler
 from pipes.sex import add_sex_entity_ruler
+from pipes.age import add_age_entity_ruler
+from pipes.date import add_date_entity_ruler
 from preprocessor import SpacyPreprocessor
 
 LINES_PER_CHUNK = 100
@@ -13,6 +15,8 @@ if __name__ == '__main__':
     nlp = add_sex_entity_ruler(nlp)
     nlp = add_religion_entity_ruler(nlp)
     nlp = add_relative_entity_ruler(nlp)
+    nlp = add_age_entity_ruler(nlp)
+    nlp = add_date_entity_ruler(nlp)
 
     with open("test_data.txt", "rt", encoding="utf-8") as file:
         text = file.read()
