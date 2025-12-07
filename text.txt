@@ -1,0 +1,37 @@
+Wszystkie poniższe dane są całkowicie fikcyjne i służą wyłącznie do testowania systemów anonimizacji. Jakiekolwiek podobieństwo do prawdziwych osób jest przypadkowe.
+
+Dnia 23.09.2023 do Szpitala Miejskiego w Warszawie została przyjęta 34-letnia Anna Kowalska, ur. 14.02.1989, zamieszkała przy ul. Fikcyjnej 12/7, 00-001 Warszawa. W dokumentacji wpisano: płeć – kobieta, wyznanie – rzymskokatolickie, poglądy polityczne – umiarkowanie centrowe, pochodzenie etniczne – polskie, orientacja seksualna – heteroseksualna. Pacjentka zgłosiła się z powodu nasilonych objawów przewlekłego nadciśnienia tętniczego oraz bólów głowy. Jej numer PESEL zapisano jako 89021412345, numer dowodu osobistego: ABA123456.
+
+W karcie przyjęcia odnotowano pełne dane kontaktowe: numer telefonu 600 111 222, adres e-mail: anna.kowalska@example.com. W rubryce „dane zawodowe” wpisano: zatrudniona w firmie „Biuro Rachunkowe Alfa Sp. z o.o.” na stanowisku starszej księgowej. Jako miejsce ukończenia szkoły średniej wskazano Liceum Ogólnokształcące nr 1 im. Marii Skłodowskiej-Curie w Warszawie. W części finansowej wywiadu pacjentka podała numer rachunku bankowego 11 1111 1111 1111 1111 1111 1111, a w załączniku, który nieopatrznie dołączyła, znajdowała się kopia umowy z bankiem z widocznym numerem karty płatniczej 4111 1111 1111 1111.
+
+W formularzu rejestracji internetowej podano także dane do logowania: nazwa użytkownika „annaK89” oraz hasło „P@ssw0rd!Anna89”, zapisane błędnie w notatce wysłanej do rejestracji. W historii medycznej wspomniała o członku rodziny: „mój brat Piotr Kowalski mieszka w Gdańsku i również leczy się na nadciśnienie”.
+
+W poradni ortopedycznej w Krakowie w dniu 15.11.2021 pojawił się 42-letni Piotr Nowak, urodzony 03.07.1981 w Krakowie, zamieszkały na osiedlu Słonecznym 5/21, 31-001 Kraków. W kwestionariuszu przychodni zaznaczył: płeć – mężczyzna, brak wyznania, poglądy polityczne – liberalne, narodowość – polska, orientacja seksualna – homoseksualna. Zgłosił dolegliwości bólowe po przebytej w 2022 roku operacji kolana.
+
+Do kontaktu podał numer telefonu 502 345 678 oraz e-mail piotr.nowak.krk@example.org. W metryczce pacjenta widnieje numer PESEL 81070398765 oraz numer paszportu CBA654321. Piotr pracuje w firmie „SoftCloud Solutions S.A.” jako starszy programista. Ukończył Politechnikę Krakowską na kierunku informatyka stosowana.
+
+W załączonym wniosku o rozłożenie płatności na raty znalazły się dane bankowe: rachunek 22 2222 2222 2222 2222 2222 2222 oraz numer karty kredytowej 5500 0000 0000 0004. W treści e-maila przesłanego do działu rozliczeń napisał:
+
+„Dzień dobry, tu Piotr Nowak, mój login w panelu pacjenta to pnowak_dev, hasło, którego używałem do logowania, to n0wak_!secure2023 (wiem, że nie powinienem go podawać, ale nie mogę się zalogować, więc przesyłam wszystkie dane). Proszę o pomoc”.
+
+W dokumentacji lekarskiej pojawia się również wzmianka o sytuacji rodzinnej: „żona Katarzyna Nowak wspiera pacjenta w rehabilitacji po wypadku komunikacyjnym z 15.11.2021”.
+
+W przychodni w Białymstoku prowadzone są regularne wizyty 28-letniej Katarzyny Zielińskiej, urodzonej 01.12.1995 w Białymstoku, mieszkającej przy ul. Lipowej 99, 15-001 Białystok. Katarzyna to kobieta wyznania prawosławnego, o poglądach politycznych określanych jako konserwatywne, pochodzenia białoruskiego, identyfikująca się jako osoba biseksualna. Od dzieciństwa choruje na astmę oskrzelową.
+
+Jej numer PESEL wpisano jako 95120145678, numer dowodu osobistego – DED987654. W części zawodowej formularza zaznaczyła, że pracuje w Centrum Handlowym „Panorama” jako kierowniczka sklepu. Ukończyła Zespół Szkół Handlowych w Białymstoku.
+
+W systemie finansowym przychodni zapisano numer jej rachunku bankowego 33 3333 3333 3333 3333 3333 3333 oraz numer karty płatniczej 4000 1234 5678 9010. Do kontaktu wykorzystuje adres e-mail k.zielinska95@testmail.pl i numer telefonu 501 200 300. W portalu pacjenta loguje się jako „kasiapanorama”, używając hasła „K4sia!Astma95”, które przypadkowo wkleiła kiedyś do wiadomości skierowanej do rejestracji.
+
+W notatkach z wizyty 01.08.2023 odnotowano, że pacjentka rozpoczęła urlop wypoczynkowy trwający od 01.08.2023 do 21.08.2023. W wywiadzie rodzinnym często wspomina swoją matkę, Teresę Zielińską, u której także zdiagnozowano choroby układu oddechowego.
+
+W poradni diabetologicznej w Łodzi prowadzona jest dokumentacja 51-letniego Marka Wójcika, urodzonego 19.03.1972, zamieszkałego przy ul. Drewnowskiej 7/3, 90-001 Łódź. Marek to mężczyzna wyznania ewangelicko-augsburskiego, o poglądach centroprawicowych, narodowości polskiej, orientacji heteroseksualnej. Choruje na cukrzycę typu 2 wymagającą insulinoterapii.
+
+Numer PESEL pacjenta to 72031911223, numer dowodu osobistego – LOD123789. Z notatek zawodowych wynika, że pracuje w Zakładach Tekstylnych „Bawełna” jako kierownik produkcji, a wcześniej ukończył Technikum Mechaniczne nr 2 w Łodzi.
+
+Wśród dokumentów przechowywanych w archiwum znalazła się kserokopia umowy kredytowej z zapisanym numerem rachunku bankowego 44 4444 4444 4444 4444 4444 4444 oraz numerem karty 4539 1488 0343 6467. Dane kontaktowe to e-mail marek.wojcik72@samplemail.eu i numer telefonu 601 789 456.
+
+Na kartotece rodzinnej odnotowano, że jego syn Adam Wójcik to osoba do kontaktu w nagłych sytuacjach medycznych. W historii leczenia widnieje zapis: „hospitalizacja w dniach 10.01.2020–24.01.2020 z powodu niewyrównanej cukrzycy i infekcji dróg oddechowych”.
+
+Studentka Julia Wiśniewska, lat 19, urodzona 30.09.2004, zgłosiła się po raz pierwszy na konsultację psychologiczną w Poradni Zdrowia Psychicznego w Poznaniu w dniu 05.05.2022. Jest mieszkanką Poznania, adres: ul. Różana 3, 60-001 Poznań. W ankiecie wstępnej podała: płeć – kobieta, wyznanie – rzymskokatolickie, poglądy polityczne – lewicowe, pochodzenie – polskie, orientacja seksualna – panseksualna.
+
+W wywiadzie medycznym zaznaczono, że od 2021 roku zmaga się z epizodami depresyjnymi. Numer PESEL Julii to 04093099876, numer dokumentu tożsamości: PZN654987. Do kontaktu służy

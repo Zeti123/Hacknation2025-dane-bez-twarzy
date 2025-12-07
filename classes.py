@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from typing import List, Any, Dict
+from typing import Any, Dict, List
+
 
 @dataclass
 class TokenInfo:
@@ -26,11 +27,28 @@ class SentenceInfo:
 
 
 @dataclass
+class SentenceSpan:
+    text: str
+    start_char: int
+    end_char: int
+    est_tokens: int
+
+
+@dataclass
 class EntityHint:
     text: str
     label: str
     start_char: int
     end_char: int
+
+
+@dataclass
+class Chunk:
+    text: str
+    start_char: int
+    end_char: int
+    sentences: List[SentenceSpan]
+    entities: List[EntityHint]
 
 
 @dataclass
@@ -40,3 +58,37 @@ class PreprocessResult:
     sentences: List[SentenceInfo]
     entities: List[EntityHint]
     meta: Dict[str, Any]
+
+
+def estimate_tokens_from_chars(text: str, chars_per_token: float = 4.0) -> int:
+    return max(1, int(len(text) / chars_per_token))
+
+
+ALLOWED_LABELS = [
+    "name",
+    "surname",
+    "age",
+    "date-of-birth",
+    "date",
+    "sex",
+    "religion",
+    "political-view",
+    "ethnicity",
+    "sexual-orientation",
+    "health",
+    "relative",
+    "city",
+    "address",
+    "email",
+    "phone",
+    "pesel",
+    "document-number",
+    "company",
+    "school-name",
+    "job-title",
+    "bank-account",
+    "credit-card-number",
+    "username",
+    "secret",
+    "none",  # for entities that should be removed but don't fit other categories
+]

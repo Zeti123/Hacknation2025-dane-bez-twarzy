@@ -1,22 +1,51 @@
+from typing import Dict, Tuple
 
-"Reprezentujemy konsorcjum DataSafe, które zajmuje się anonimizacją dokumentów. "
-"Siedziba firmy znajduje się we Wrocławiu przy ulicy Kościuszki 10. "
-"Dane osobowe takich osób jak Jan Kowalski czy Anna Nowak muszą zostać zanonimizowane. "
-"Mój nr telefonu to 123-456-789. Nazywam się Krawiec i urodziłem się 20-10-2024."
-|
-[EntityHint(text='Wrocławiu', label='placeName', start_char=111, end_char=120),
- EntityHint(text='ulicy', label='geogName', start_char=126, end_char=131),
- EntityHint(text='Jan Kowalski', label='persName', start_char=173, end_char=185),
- EntityHint(text='Anna Nowak', label='persName', start_char=190, end_char=200),
- EntityHint(text='Krawiec', label='persName', start_char=274, end_char=281)]
-|
-"Reprezentujemy konsorcjum {compName}, które zajmuje się anonimizacją dokumentów. "
-"Siedziba firmy znajduje się we Wrocławiu przy ulicy {Ulica}. "
-"Dane osobowe takich osób jak {FirstName} czy {LastName} muszą zostać zanonimizowane. "
-"Mój nr telefonu to {PhoneNumber}. Nazywam się {Name} i urodziłem się {DataUrodzenia}."
-|
-|
-"Reprezentujemy konsorcjum GownoSA, które zajmuje się anonimizacją dokumentów. "
-"Siedziba firmy znajduje się we Wrocławiu przy ulicy Niepodległości 11. "
-"Dane osobowe takich osób jak Alojzy Sałata czy Anna Muszka muszą zostać zanonimizowane. "
-"Mój nr telefonu to 111-222-333. Nazywam się Olek i urodziłem się 20-11-2020."
+PLACEHOLDER_MAP = {
+    "name": "[name]",
+    "surname": "[surname]",
+    "age": "[age]",
+    "date-of-birth": "[date-of-birth]",
+    "date": "[date]",
+    "sex": "[sex]",
+    "religion": "[religion]",
+    "political-view": "[political-view]",
+    "ethnicity": "[ethnicity]",
+    "sexual-orientation": "[sexual-orientation]",
+    "health": "[health]",
+    "relative": "[relative]",
+    "city": "[city]",
+    "address": "[address]",
+    "email": "[email]",
+    "phone": "[phone]",
+    "pesel": "[pesel]",
+    "document-number": "[document-number]",
+    "company": "[company]",
+    "school-name": "[school-name]",
+    "job-title": "[job-title]",
+    "bank-account": "[bank-account]",
+    "credit-card-number": "[credit-card-number]",
+    "username": "[username]",
+    "secret": "[secret]",
+}
+
+LEGACY_HINT_TO_LABEL = {
+    "persName": "name",
+    "placeName": "city",
+    "geogName": "address",
+}
+
+
+def label_to_placeholder(label: str) -> str:
+    return PLACEHOLDER_MAP.get(label, "[unknown]")
+
+
+def normalize_hint_label(label: str) -> str:
+    return LEGACY_HINT_TO_LABEL.get(label, label)
+
+
+def apply_placeholders(text: str, entities: Dict[Tuple[int, int], str]) -> str:
+    spans = sorted(entities.items(), key=lambda kv: kv[0][0], reverse=True)
+    out = text
+    for (start, end), label in spans:
+        out = out[:start] + label_to_placeholder(label) + out[end:]
+    return out
