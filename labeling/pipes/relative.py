@@ -38,7 +38,12 @@ def shrink_relative_spans(doc):
 
 
 def add_relative_entity_ruler(nlp: spacy.Language):
-    ruler = nlp.add_pipe("entity_ruler", name="relative_ruler", before="ner")
+    ruler = nlp.add_pipe(
+        "entity_ruler",
+        name="relative_ruler",
+        after="ner",
+        config={"overwrite_ents": True},
+    )
 
     ruler.add_patterns([
         {

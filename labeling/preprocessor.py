@@ -3,7 +3,7 @@ from typing import Any, Dict, List
 
 import spacy
 
-from regex_labeling import regex_labeling
+from pipes.rule_entities import RULE_SOURCE
 
 
 @dataclass
@@ -92,11 +92,9 @@ class SpacyPreprocessor:
             self,
             nlp: spacy.Language,
             use_ner_hints: bool = True,
-            use_regex_hints: bool = True,
     ) -> None:
         self.nlp = nlp
         self.use_ner_hints = use_ner_hints
-        self.use_regex_hints = use_regex_hints
 
     def _tokens_to_info(self, doc: spacy.language.Doc) -> List[TokenInfo]:
         tokens_info: List[TokenInfo] = []
@@ -153,6 +151,9 @@ class SpacyPreprocessor:
         text_lower = ent.text.lower()
 
         if label in ALLOWED_LABELS:
+            # Force dates to come from rule-based (regex-style) matches, not spaCy NER.
+            if label == "date" and ent.ent_id_ != RULE_SOURCE:
+                return []
             return [EntityHint(text=ent.text, label=label, start_char=ent.start_char, end_char=ent.end_char)]
 
         if label == "persName":
@@ -172,21 +173,6 @@ class SpacyPreprocessor:
         for ent in doc.ents:
             entity_hints.extend(self._map_spacy_entity(ent))
         return entity_hints
-
-    def _regex_entities(self, text: str) -> List[EntityHint]:
-        regex_hints: List[EntityHint] = []
-        for hint in regex_labeling(text):
-            if hint.label not in ALLOWED_LABELS:
-                continue
-            regex_hints.append(
-                EntityHint(
-                    text=hint.text,
-                    label=hint.label,
-                    start_char=hint.start_char,
-                    end_char=hint.end_char,
-                )
-            )
-        return regex_hints
 
     def _merge_entities(self, hints: List[EntityHint]) -> List[EntityHint]:
         seen = set()
@@ -227,19 +213,15 @@ class SpacyPreprocessor:
         tokens = self._tokens_to_info(doc)
         sentences = self._sentences_to_info(doc)
         ner_entities = self._entities_to_hints(doc) if self.use_ner_hints else []
-        regex_entities = self._regex_entities(text) if self.use_regex_hints else []
 
-        merged_entities = self._merge_entities([*ner_entities, *regex_entities])
+        merged_entities = self._merge_entities(ner_entities)
 
         redacted_text = self._redact_text(text, merged_entities)
 
         meta = {
             "use_ner_hints": self.use_ner_hints,
-            "use_regex_hints": self.use_regex_hints,
             "num_tokens": len(tokens),
             "num_sentences": len(sentences),
-            "num_entities_ner": len(ner_entities),
-            "num_entities_regex": len(regex_entities),
             "num_entities": len(merged_entities),
         }
 

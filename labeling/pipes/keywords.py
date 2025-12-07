@@ -43,6 +43,11 @@ def _keyword_patterns():
 
 
 def add_keyword_entity_ruler(nlp: spacy.Language):
-    ruler = nlp.add_pipe("entity_ruler", name="keyword_ruler", before="ner")
+    ruler = nlp.add_pipe(
+        "entity_ruler",
+        name="keyword_ruler",
+        after="ner",
+        config={"overwrite_ents": True},
+    )
     ruler.add_patterns(_keyword_patterns())
     return nlp
